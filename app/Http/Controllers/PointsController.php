@@ -30,20 +30,19 @@ class PointsController extends Controller
 
         // I know this query's beautification is gross, I apologize.
         $data = DB::select(DB::raw("
-        SELECT 
-            * 
+        SELECT
+            x.name,
+            x.x,
+            x.y,
+            ROUND(x.distance, 1) as distance
         FROM 
             (
             SELECT 
                 *, 
-                ROUND(
-                (
                     SQRT(
                     POWER(x - $x, 2) + POWER(y - $y, 2)
                     ):: numeric
-                ), 
-                1
-                ) AS distance 
+                AS distance 
             FROM 
                 points
             ) AS x 
@@ -53,14 +52,9 @@ class PointsController extends Controller
             x.distance = (
             SELECT 
                 MIN(
-                ROUND(
-                    (
                     SQRT(
                         POWER(x - $x, 2) + POWER(y - $y, 2)
                     ):: numeric
-                    ), 
-                    1
-                )
                 ) 
             FROM 
                 points
@@ -86,19 +80,18 @@ class PointsController extends Controller
         // I know this query's beautification is gross, I apologize.
         $data = DB::select(DB::raw("
         SELECT 
-            * 
+            x.name,
+            x.x,
+            x.y,
+            ROUND(x.distance, 1) as distance
         FROM 
             (
             SELECT 
-                *, 
-                ROUND(
-                (
+                *,
                     SQRT(
                     POWER(x - $x, 2) + POWER(y - $y, 2)
                     ):: numeric
-                ), 
-                1
-                ) AS distance 
+                AS distance 
             FROM 
                 points
             ) AS x 
@@ -108,14 +101,9 @@ class PointsController extends Controller
             x.distance = (
             SELECT 
                 MAX(
-                ROUND(
-                    (
                     SQRT(
                         POWER(x - $x, 2) + POWER(y - $y, 2)
                     ):: numeric
-                    ), 
-                    1
-                )
                 ) 
             FROM 
                 points
